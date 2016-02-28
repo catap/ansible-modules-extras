@@ -132,7 +132,7 @@ function createFireWallRule ($fwsettings) {
             $execString+='"';
             $execString+=$fwsetting.value;
             $execString+='"';
-        }
+        };
     };
     try {
         #$msg+=@($execString);
