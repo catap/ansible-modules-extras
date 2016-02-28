@@ -120,17 +120,19 @@ function createFireWallRule ($fwsettings) {
     $execString="netsh advfirewall firewall add rule "
 
     ForEach ($fwsetting in $fwsettings.GetEnumerator()) {
-        if ($fwsetting.key -eq 'Direction') {
-            $key='dir'
-        } else {
-            $key=$($fwsetting.key).ToLower()
-        };
-        $execString+=" ";
-        $execString+=$key;
-        $execString+="=";
-        $execString+='"';
-        $execString+=$fwsetting.value;
-        $execString+='"';
+        if ($fwsetting.value -ne "") {
+            if ($fwsetting.key -eq 'Direction') {
+                $key='dir'
+            } else {
+                $key=$($fwsetting.key).ToLower()
+            };
+            $execString+=" ";
+            $execString+=$key;
+            $execString+="=";
+            $execString+='"';
+            $execString+=$fwsetting.value;
+            $execString+='"';
+        }
     };
     try {
         #$msg+=@($execString);
@@ -262,7 +264,7 @@ foreach ($arg in $args){
     };
 };
 
-$winprofile=Get-Attr $params "profile" "current";
+$winprofile=Get-Attr $params "profile" "";
 $fwsettings.Add("profile", $winprofile)
 
 if ($misArg){
